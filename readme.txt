@@ -4,7 +4,7 @@ Donate link: http://munyagu.com/donate/
 Tags: security,admin
 Requires at least: 3.8
 Tested up to: 4.6.1
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,5 +56,8 @@ This plug-in does not change the .htaccess, you can use with confidence.
 
 == Changelog ==
 
-= 1.0 =
+= 1.0.0 =
 First release.
+
+= 1.0.1 =
+fix error error of removing the plugin.
