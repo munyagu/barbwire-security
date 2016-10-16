@@ -1,0 +1,92 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Barbwire Security\n"
+"POT-Creation-Date: 2016-10-11 20:36+0900\n"
+"PO-Revision-Date: 2016-10-11 20:43+0900\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.9\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: admin/settings.php:30
+msgid "Barbwire Security"
+msgstr "Barbwire Security"
+
+#: admin/settings.php:64
+msgid "Authority is missing."
+msgstr "権限が不足しています"
+
+#: admin/settings.php:77
+msgid "There is an error in the parameter name."
+msgstr "パラメータ名にエラーががあります"
+
+#: admin/settings.php:81
+msgid "There is an error in the parameter value."
+msgstr "パラメータの値にエラーがあります"
+
+#: admin/settings.php:110
+msgid "registered"
+msgstr "登録されました"
+
+#: admin/settings.php:113
+msgid "updated"
+msgstr "更新されました"
+
+#: admin/template/page-setting.php:11
+msgid "Barbwire Security Settings"
+msgstr "Barbwire Security 設定"
+
+#: admin/template/page-setting.php:17 admin/template/page-setting.php:92
+msgid "save"
+msgstr "保存"
+
+#: admin/template/page-setting.php:20
+msgid "ADMIN LOGIN PAGE URL PARAMETER"
+msgstr "管理画面にURLパラメータを付与する"
+
+#: admin/template/page-setting.php:24
+msgid "Login URL is"
+msgstr "ログインURL"
+
+#: admin/template/page-setting.php:27
+msgid "enable login url parameter function"
+msgstr "URLパラメータの付与を有効にする"
+
+#: admin/template/page-setting.php:29
+msgid "enable"
+msgstr "有効にする"
+
+#: admin/template/page-setting.php:32
+msgid "parameter name"
+msgstr "パラメータ名"
+
+#: admin/template/page-setting.php:36 admin/template/page-setting.php:44
+msgid "Alphanumeric characters and hyphens, underscores only."
+msgstr "半角英数字とハイフン、アンダーバーのみ登録できます。"
+
+#: admin/template/page-setting.php:40
+msgid "parameter value"
+msgstr "パラメータの値"
+
+#: admin/template/page-setting.php:73
+msgid "PINGBACK"
+msgstr "PINGBACK"
+
+#: admin/template/page-setting.php:76
+msgid "Suppress Pingback function"
+msgstr "Pingback機能を制限する"
+
+#: functions.php:88
+msgid "Failed to login."
+msgstr "不正なログインです"
+
+#~ msgid "Alphanumeric characters and hyphens(-), underscores(_) only."
+#~ msgstr "半角英語数字とハイフン(-)、アンダーバー(_)のみ"

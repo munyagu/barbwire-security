@@ -1,0 +1,145 @@
+# WordPress Blank Pot
+# Copyright (C) 2014 ...
+# This file is distributed under the GNU General Public License v2 or later.
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: "
+"Barbwire Security "
+"v1.0.0\n"
+"POT-Creation-Date: "
+"2016-10-12 18:49+0900\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Your "
+"Name <you@example.com>\n"
+"Language-Team: \n"
+"Report-Msgid-Bugs-To: "
+"Translator Name "
+"<translations@example."
+"com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/"
+"plain; charset=UTF-8\n"
+"Content-Transfer-"
+"Encoding: 8bit\n"
+"Plural-Forms: "
+"nplurals=2; plural=n != "
+"1;\n"
+"X-Textdomain-Support: "
+"yesX-Generator: Poedit "
+"1.6.4\n"
+"X-Poedit-SourceCharset: "
+"UTF-8\n"
+"X-Poedit-KeywordsList: "
+"__;_e;esc_html_e;"
+"esc_html_x:1,2c;"
+"esc_html__;esc_attr_e;"
+"esc_attr_x:1,2c;"
+"esc_attr__;_ex:1,2c;"
+"_nx:4c,1,2;"
+"_nx_noop:4c,1,2;_x:1,2c;"
+"_n:1,2;_n_noop:1,2;"
+"__ngettext:1,2;"
+"__ngettext_noop:1,2;_c,"
+"_nc:4c,1,2\n"
+"X-Poedit-Basepath: ..\n"
+"Language: en_US\n"
+"X-Generator: Poedit "
+"1.8.9\n"
+"X-Poedit-"
+"SearchPath-0: .\n"
+
+#: admin/settings.php:29
+msgid ""
+"Barbwire Security Setting"
+msgstr ""
+
+#: admin/settings.php:30
+msgid "Barbwire Security"
+msgstr ""
+
+#: admin/settings.php:64
+msgid ""
+"Authority is missing."
+msgstr ""
+
+#: admin/settings.php:77
+msgid ""
+"There is an error in the "
+"parameter name."
+msgstr ""
+
+#: admin/settings.php:81
+msgid ""
+"There is an error in the "
+"parameter value."
+msgstr ""
+
+#: admin/settings.php:110
+msgid "registered"
+msgstr ""
+
+#: admin/settings.php:113
+msgid "updated"
+msgstr ""
+
+#: admin/template/page-setting.php:11
+msgid ""
+"Barbwire Security "
+"Settings"
+msgstr ""
+
+#: admin/template/page-setting.php:17
+#: admin/template/page-setting.php:92
+msgid "save"
+msgstr ""
+
+#: admin/template/page-setting.php:20
+msgid ""
+"ADMIN LOGIN PAGE URL "
+"PARAMETER"
+msgstr ""
+
+#: admin/template/page-setting.php:24
+msgid "Login URL is"
+msgstr ""
+
+#: admin/template/page-setting.php:27
+msgid ""
+"enable login url "
+"parameter function"
+msgstr ""
+
+#: admin/template/page-setting.php:29
+msgid "enable"
+msgstr ""
+
+#: admin/template/page-setting.php:32
+msgid "parameter name"
+msgstr ""
+
+#: admin/template/page-setting.php:36
+#: admin/template/page-setting.php:44
+msgid ""
+"Alphanumeric characters "
+"and hyphens, underscores "
+"only."
+msgstr ""
+
+#: admin/template/page-setting.php:40
+msgid "parameter value"
+msgstr ""
+
+#: admin/template/page-setting.php:73
+msgid "PINGBACK"
+msgstr ""
+
+#: admin/template/page-setting.php:76
+msgid ""
+"Suppress Pingback "
+"function"
+msgstr ""
+
+#: functions.php:100
+msgid "Failed to login."
+msgstr ""
