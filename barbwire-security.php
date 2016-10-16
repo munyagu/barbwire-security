@@ -4,7 +4,7 @@ Plugin Name: Barbwire Security
 Plugin URI: http://barbwire.co.jp/plugin/barb-pack
 Description: This plugin enhances the WordPress security.
 Author: barbwire.co.jp
-Version: 0.8
+Version: 1.0.0
 Author URI: http://barbwire.co.jp/
 Text Domain:barbwire-security
 Domain Path: /languages/
