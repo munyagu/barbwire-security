@@ -4,7 +4,7 @@ Donate link: http://munyagu.com/donate/
 Tags: security,admin
 Requires at least: 3.8
 Tested up to: 4.6.1
-Stable tag: 1.0.1
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,3 +61,10 @@ First release.
 
 = 1.0.1 =
 fix error error of removing the plugin.
+
+= 1.0.2 =
+fix php warning message.
+
+= 1.0.3 =
+fix login page will divulge, when using Permalink settings.
+Thanks to @nyarocom pointed out.(https://wordpress.org/support/topic/login-page-will-divulge/)

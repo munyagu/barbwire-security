@@ -1,6 +1,6 @@
 <?php
 
-if(!class_exists(BarbTool)){
+if(!class_exists('BarbTool')){
     class BarbTool {
         /**
          * ログファイル出力する

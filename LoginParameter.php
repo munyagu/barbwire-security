@@ -63,12 +63,30 @@ class LoginParameter {
 		add_filter('lostpassword_url',array('barbsecurity\LoginParameter', 'filter_lostpassword_url'),1);
 		add_filter('site_url',array('barbsecurity\LoginParameter', 'filter_site_url'),1);
 
+
 		//add_filter('network_site_url',array('barbsecurity\LoginParameter', 'filter_network_site_url'),3); todo not tested
 
 	}
 
+
 	public static function filter_login_url($login_url, $redirect, $force_reauth){
         BarbTool::bp_log('filter_login_url');
+
+        // not login or redirect login url
+        // refer to wordpress/wordpress/wp-includes/canonical.php wp_redirect_admin_locations
+        if(!is_user_logged_in()){
+            $logins = array(
+                home_url( 'wp-admin', 'relative' ),
+                home_url( 'dashboard', 'relative' ),
+                site_url( 'admin', 'relative' ),
+                home_url( 'wp-login.php', 'relative' ),
+                home_url( 'login', 'relative' ),
+            );
+
+            if ( in_array( untrailingslashit( $_SERVER['REQUEST_URI'] ), $logins ) ) {
+                exit_404();
+            }
+        }
 		return self::addParameter($login_url, $redirect, $force_reauth);
 	}
 
