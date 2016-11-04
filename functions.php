@@ -1,13 +1,15 @@
 <?php
 require_once dirname(__FILE__).'/Version.php';
 require_once dirname(__FILE__).'/admin/settings.php';
-require_once dirname(__FILE__).'/disable_pingback.php';
+require_once dirname(__FILE__) . '/DisableXMLRPCPingBack.php';
 
 require_once dirname(__FILE__).'/LoginParameter.php';
+require_once dirname(__FILE__).'/AuthorArchive.php';
 require_once dirname(__FILE__).'/barb_libs.php';
 
 use barbsecurity\Version as Version;
 use barbsecurity\LoginParameter as LoginParameter;
+use barbsecurity\AuthorArchive as AuthorArchive;
 
 define('BARB_SECURITY_AUTHORITYSECURE', 'manage_options');    //User level required in order to change the settings.
 define('BARB_SECURITY_SAVE_TRANSIENT', Version::$name."_SAVE");
@@ -84,12 +86,25 @@ add_action( 'secure_auth_redirect', 'barb_security_secure_auth_redirect' );
  * ADMIN LOGIN PAGE URL PARAMETER
  *************************************/
 
-$barb_security_options = get_option(Version::$name, array());
+//$barb_security_options = get_option(Version::$name, array());
 /* If enable ADMIN LOGIN PAGE URL PARAMETER, initialize activate it.  */
 if(isset($barb_security_options['parameter_enable']) && $barb_security_options['parameter_enable'] == true){
-    LoginParameter::activeteLoginParameter();
+    LoginParameter::activate();
 }
 
+/*************************************
+ * BLOCK SHOW AUTHOR ARCHIVE
+ *************************************/
+if(isset($barb_security_options['block_author_archive']) && $barb_security_options['block_author_archive'] == true){
+    AuthorArchive::activete();
+}
+
+/*************************************
+ * DISABLE XMLRCP PINGBACK
+ *************************************/
+if(isset($barb_security_options['pingback_suppress_enable']) && $barb_security_options['pingback_suppress_enable'] == true){
+    DisableXMLRPCPingBack::activate();
+}
 
 /*************** OTHER ***************/
 
@@ -106,7 +121,16 @@ function exit_403(){
  * エラーコード403で終了する
  */
 function exit_404(){
-    echo '<html><head><title>404</title></head><body><h1>Not Found</h1>'."The requested URL {$_SERVER['REQUEST_URI']} was not found on this server".'</body></html>';
+    global $wp_query;
+    $wp_query->set_404();
     status_header( 404 );
+    nocache_headers();
+    $template404 = get_query_template('404');
+    if($template404){
+        include($template404);
+    }else{
+        echo '<html><head><title>404</title></head><body><h1>Not Found</h1>'."The requested URL {$_SERVER['REQUEST_URI']} was not found on this server".'</body></html>';
+    }
+
     exit();
 }

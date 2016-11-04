@@ -39,6 +39,10 @@
     opacity: 0.5;
 }
 
+#secure a.help_link {
+    margin: auto 5px;
+}
+
 #login_url {
     opacity: 1;
     width:500px;

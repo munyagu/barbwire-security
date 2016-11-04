@@ -17,7 +17,7 @@ $options = get_option(Version::$name, array());
             <input type="submit" class="button button-primary button-large" value="<?=__('save', Version::$name)?>" />
         </div>
         <div id="settings">
-            <h3><?=__('ADMIN LOGIN PAGE URL PARAMETER', Version::$name);?></h3>
+            <h3><?=__('ADMIN LOGIN PAGE URL PARAMETER', Version::$name);?><a id="login_parameter" class="help_link" href="#"><img src="<?= plugins_url().'/barbwire-security/img/question_icon.png' ?>" /></a></h3>
             <?php
             $enable = isset($options['parameter_enable']) && $options['parameter_enable']==true;
             ?>
@@ -70,7 +70,15 @@ $options = get_option(Version::$name, array());
                 </tr>
             </table>
             -->
-            <h3><?=__('PINGBACK', Version::$name)?></h3>
+            <h3><?=__('AUTHOR ARCHIVE', Version::$name)?><a id="author_archive" class="help_link" href="#"><img src="<?= plugins_url().'/barbwire-security/img/question_icon.png' ?>" /></a></h3>
+            <table>
+                <tr>
+                    <th><?=__('Block the display of author archive page', Version::$name)?></th>
+                    <td><label><input type="checkbox" name="block_author_archive" value="1" <?=isset($options['block_author_archive']) && $options['block_author_archive']==true?"checked='checked'":'';?>>enable</label></td>
+                </tr>
+            </table>
+
+            <h3><?=__('PINGBACK', Version::$name)?><a id="pingback" class="help_link" href="#"><img src="<?= plugins_url().'/barbwire-security/img/question_icon.png' ?>" /></a></h3>
             <table>
                 <tr>
                     <th><?=__('Suppress Pingback function', Version::$name)?></th>

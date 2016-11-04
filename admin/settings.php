@@ -41,6 +41,57 @@ function barb_security_admin_menu() {
 add_action('admin_menu', 'barb_security_admin_menu');
 
 /**
+ * Add help to setting page
+ */
+function barb_security_contextual_help($help, $screen_id, $screen){
+    if($screen_id == 'toplevel_page_barb_secure_settings'){
+
+        $content = '<p>';
+        $content .= __('You can ward off tying for try to login for cracking, such as Brute-force attack.', Version::$name);
+        $content .= '<br />';
+        $content .= __('Adding any parameter to login URL so that login screen will hidden.', Version::$name);
+        $content .= '</p>';
+
+        $tab = array(
+            'title' => __('Enable login url parameter function' , Version::$name),
+            'id' => 'login_parameter',
+            'content' => $content
+        );
+        $screen->add_help_tab($tab);
+
+        $content = '<p>';
+        $content .= __('WordPress leaks your login id because of redirect author archive page by author id to login id.', Version::$name);
+        $content .= '<br />';
+        $content .= '(' . __('If you enter "your-site-url/?author=1", you can try it.', Version::$name) . ')';
+        $content .= '<br />';
+        $content .= __('Simply hideing author archive page so that block to leak login id.', Version::$name);
+        $content .= '</p>';
+
+        $tab = array(
+            'title' => __('Block the display of author archive page' , Version::$name),
+            'id' => 'author_archive',
+            'content' => $content
+        );
+        $screen->add_help_tab($tab);
+
+        $content = '<p>';
+        $content .= __('Block DDOS attacks against other sites with yor WordPress site, pingback enabled.', Version::$name);
+        $content .= '<br />';
+        $content .= __('<a href="http://www.digitalattackmap.com/#anim=1&color=0&country=ALL&list=2&time=17108&view=map" target="_blank">Sites around the world have been exposed to the threat of DDOS attack.</a>', Version::$name);
+        $content .= '</p>';
+
+        $tab = array(
+            'title' => __('Suppress XML-RPC Pingback function' , Version::$name),
+            'id' => 'pingback',
+            'content' => $content
+        );
+        $screen->add_help_tab($tab);
+    }
+}
+add_filter('contextual_help', 'barb_security_contextual_help', 900, 3);
+
+
+/**
  * セキュリティパック管理画面表示
  */
 function barb_disp_secure_settings(){
@@ -94,6 +145,9 @@ function barb_security_admin_init(){
         $options['retry_lock_period'] = isset($_POST['retry_lock_period']) ? $_POST['retry_lock_period'] : '';
         $options['retry_connection'] = isset($_POST['retry_connection']) ? $_POST['retry_connection'] : '';
         */
+
+        /* block the display of author archive page */
+        $options['block_author_archive'] = isset($_POST['block_author_archive']) && $_POST['block_author_archive'] == 1 ? true : false;
 
         /* PINGBACK */
         $options['pingback_suppress_enable'] = isset($_POST['pingback_suppress_enable']) && $_POST['pingback_suppress_enable'] == 1 ? true : false;

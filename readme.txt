@@ -4,7 +4,7 @@ Donate link: http://munyagu.com/donate/
 Tags: security,admin
 Requires at least: 3.8
 Tested up to: 4.6.1
-Stable tag: 1.0.3
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,7 +17,17 @@ Effective such as the brute force attack.
 Includes the following specific functions.
 
 1.Change the URL of the login screen, to avoid attacks on the login screen.
-2.To disable the part of the XML-RCP feature prevents the attack.
+  You can ward off tying for try to login for cracking, such as Brute-force attack.
+  Adding parameter to login URL so that default login url will hidden.
+
+2.Block the display of author archive page
+  WordPress leaks your login id because of redirect author archive page by author id to login id.
+  (If you enter "your-site-url/?author=1", you can try it.)
+  Simply hideing author archive page so that block to leak login id.
+
+3.To disable the part of the XML-RCP feature prevents the attack.
+  Block DDOS attacks against other sites with yor WordPress site, pingback enabled.
+
 
 These features will be able to choose whether or not to enable.
 
@@ -68,3 +78,8 @@ fix php warning message.
 = 1.0.3 =
 fix login page will divulge, when using Permalink settings.
 Thanks to @nyarocom pointed out.(https://wordpress.org/support/topic/login-page-will-divulge/)
+
+= 1.1.0 =
+fix disnable pingback function was not working.
+add function block the display of author archive page.
+add help documentation.

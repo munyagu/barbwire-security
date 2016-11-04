@@ -54,7 +54,7 @@ class LoginParameter {
 
 
 
-	public static function activeteLoginParameter(){
+	public static function activate(){
         BarbTool::bp_log("activeteLoginParameter");
 
 		add_filter('login_url',array('barbsecurity\LoginParameter', 'filter_login_url'),1, 3);
