@@ -4,7 +4,7 @@ Donate link: http://munyagu.com/donate/
 Tags: security,admin
 Requires at least: 3.8
 Tested up to: 4.6.1
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,8 +42,18 @@ This plug-in does not change the .htaccess, you can use with confidence.
 以下のような機能を有しています。
 
 １．ログイン画面のURLにパラメータを付与し、ログイン画面への攻撃を防ぎます。
-　　/wp-adminへのアクセスもログイン画面にリダイレクトされなくなります。
+  ブルートフォースアタックのような、あなたのサイトをクラックするためのログインの試行を避けることができます。
+  Adding any parameter to login URL so that login screen will hidden.
+  /wp-adminへのアクセスもログイン画面にリダイレクトされなくなります。
+
 ２．XML-RCP機能の一部を無効にし、この機能を利用したログインや改竄を防ぎます。
+  pingbackを無効化することで、他のサイトへのDDOS攻撃の踏み台にされることを防ぎます。
+
+３．作成者アーカイブを表示しないようにし、ログインIDの漏洩を防ぎます。
+  作成者IDがセットされたURLからログインIDがセットされたURLにリダイレクトされることで、ログインIDが漏洩する可能性があります。
+  サイトURLに/?author=1を付加することで、ログインIDがURLに表れるかどうかを試すことができます。
+  単純に作成者アーカイブページを表示しないことで、ログインIDの漏洩を防ぎます。
+
 
 これらの機能は有効/無効を選択することができます。
 
@@ -83,3 +93,6 @@ Thanks to @nyarocom pointed out.(https://wordpress.org/support/topic/login-page-
 fix disnable pingback function was not working.
 add function block the display of author archive page.
 add help documentation.
+
+= 1.1.1 =
+fix readme.txt
