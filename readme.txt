@@ -108,5 +108,5 @@ fix readme.txt
 Add new function, Disable the REST API.
 Refactor source codes.
 
-= 1.2.0 =
+= 1.2.1 =
 fix settings page duplication.
