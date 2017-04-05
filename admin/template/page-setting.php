@@ -1,47 +1,56 @@
 <?php
-require_once dirname(__FILE__).'/../../Version.php';
-require_once dirname(__FILE__).'/../../LoginParameter.php';
+require_once WP_PLUGIN_DIR . '/barbwire-security/inc/Version.php';
+require_once WP_PLUGIN_DIR . '/barbwire-security/inc/LoginParameter.php';
 use barbsecurity\Version as Version;
 use barbsecurity\LoginParameter as LoginParameter;
 
-$options = get_option(Version::$name, array());
+$options = get_option( Version::$name, array() );
 ?>
 <div class="wrap">
     <div class="wrap">
-        <h2><?=__('Barbwire Security Settings', Version::$name)?></h2>
+        <h2><?= __( 'Barbwire Security Settings', 'barbwire-security' ) ?></h2>
     </div>
 
     <form id="secure" method="post" action="">
-        <?php wp_nonce_field(Version::$name, 'barb_secure') ?>
+		<?php wp_nonce_field( Version::$name, 'barb_secure' ) ?>
         <div class="header_buttons">
-            <input type="submit" class="button button-primary button-large" value="<?=__('save', Version::$name)?>" />
+            <input type="submit" class="button button-primary button-large"
+                   value="<?= __( 'save', 'barbwire-security' ) ?>"/>
         </div>
         <div id="settings">
-            <h3><?=__('ADMIN LOGIN PAGE URL PARAMETER', Version::$name);?><a id="login_parameter" class="help_link" href="#"><img src="<?= plugins_url().'/barbwire-security/img/question_icon.png' ?>" /></a></h3>
-            <?php
-            $enable = isset($options['parameter_enable']) && $options['parameter_enable']==true;
-            ?>
-            <p><?=__('Login URL is', Version::$name)?> <input id="login_url" type="text" value="<?=wp_login_url()?>" onclick="this.select()" readonly="readonly"/></p>
+            <h3><?= __( 'ADMIN LOGIN PAGE URL PARAMETER', 'barbwire-security' ); ?><a id="login_parameter" class="help_link"
+                                                                                 href="#"><img
+                            src="<?= plugins_url() . '/barbwire-security/img/question_icon.png' ?>"/></a></h3>
+			<?php
+			$enable = isset( $options['parameter_enable'] ) && $options['parameter_enable'] == true;
+			?>
+            <p><?= __( 'Login URL is', 'barbwire-security' ) ?> <input id="login_url" type="text"
+                                                                  value="<?= wp_login_url() ?>" onclick="this.select()"
+                                                                  readonly="readonly"/></p>
             <table>
                 <tr>
-                    <th><?=__('enable login url parameter function', Version::$name)?></th>
+                    <th><?= __( 'enable login url parameter function', 'barbwire-security' ) ?></th>
 
-                    <td><label><input type="checkbox" name="parameter_enable" value="1" <?=$enable?"checked='checked'":'';?>><?=__('enable', Version::$name)?></label></td>
+                    <td><label><input type="checkbox" name="parameter_enable"
+                                      value="1" <?= $enable ? "checked='checked'" : ''; ?>><?= __( 'enable', 'barbwire-security' ) ?>
+                        </label></td>
                 </tr>
                 <tr>
-                    <th><?=__('parameter name', Version::$name)?></th>
+                    <th><?= __( 'parameter name', 'barbwire-security' ) ?></th>
                     <td>
-                        <?php $value = !empty($_POST['param_name']) && $enable ? $_POST['param_name'] : $options['param_name']; ?>
-                        <input type="text" name="param_name" placeholder="default:<?=LoginParameter::$key?>" value="<?=!empty($value) ? $value:''?>" <?=$enable?'':'readonly'?>/><br/>
-                        <?=__('Alphanumeric characters and hyphens, underscores only.', Version::$name)?>
+						<?php $value = ! empty( $_POST['param_name'] ) && $enable ? $_POST['param_name'] : $options['param_name']; ?>
+                        <input type="text" name="param_name" placeholder="default:<?= LoginParameter::$key ?>"
+                               value="<?= ! empty( $value ) ? $value : '' ?>" <?= $enable ? '' : 'readonly' ?>/><br/>
+						<?= __( 'Alphanumeric characters and hyphens, underscores only.', 'barbwire-security' ) ?>
                     </td>
                 </tr>
                 <tr>
-                    <th><?=__('parameter value', Version::$name)?></th>
+                    <th><?= __( 'parameter value', 'barbwire-security' ) ?></th>
                     <td>
-                        <?php $value = !empty($_POST['param_value']) && $enable ? $_POST['param_value'] : $options['param_value']; ?>
-                        <input type="text" name="param_value" placeholder="default:<?=LoginParameter::$val?>" value="<?=!empty($value) ? $value:''?>" <?=$enable?'':'readonly'?>/><br/>
-                        <?=__('Alphanumeric characters and hyphens, underscores only.', Version::$name)?>
+						<?php $value = ! empty( $_POST['param_value'] ) && $enable ? $_POST['param_value'] : $options['param_value']; ?>
+                        <input type="text" name="param_value" placeholder="default:<?= LoginParameter::$val ?>"
+                               value="<?= ! empty( $value ) ? $value : '' ?>" <?= $enable ? '' : 'readonly' ?>/><br/>
+						<?= __( 'Alphanumeric characters and hyphens, underscores only.', 'barbwire-security' ) ?>
                     </td>
                 </tr>
             </table>
@@ -70,19 +79,25 @@ $options = get_option(Version::$name, array());
                 </tr>
             </table>
             -->
-            <h3><?=__('AUTHOR ARCHIVE', Version::$name)?><a id="author_archive" class="help_link" href="#"><img src="<?= plugins_url().'/barbwire-security/img/question_icon.png' ?>" /></a></h3>
+            <h3><?= __( 'AUTHOR ARCHIVE', 'barbwire-security' ) ?><a id="author_archive" class="help_link" href="#"><img
+                            src="<?= plugins_url() . '/barbwire-security/img/question_icon.png' ?>"/></a></h3>
             <table>
                 <tr>
-                    <th><?=__('Block the display of author archive page', Version::$name)?></th>
-                    <td><label><input type="checkbox" name="block_author_archive" value="1" <?=isset($options['block_author_archive']) && $options['block_author_archive']==true?"checked='checked'":'';?>>enable</label></td>
+                    <th><?= __( 'Block the display of author archive page', 'barbwire-security' ) ?></th>
+                    <td><label><input type="checkbox" name="block_author_archive"
+                                      value="1" <?= isset( $options['block_author_archive'] ) && $options['block_author_archive'] == true ? "checked='checked'" : ''; ?>>enable</label>
+                    </td>
                 </tr>
             </table>
 
-            <h3><?=__('PINGBACK', Version::$name)?><a id="pingback" class="help_link" href="#"><img src="<?= plugins_url().'/barbwire-security/img/question_icon.png' ?>" /></a></h3>
+            <h3><?= __( 'PINGBACK', 'barbwire-security' ) ?><a id="pingback" class="help_link" href="#"><img
+                            src="<?= plugins_url() . '/barbwire-security/img/question_icon.png' ?>"/></a></h3>
             <table>
                 <tr>
-                    <th><?=__('Suppress Pingback function', Version::$name)?></th>
-                    <td><label><input type="checkbox" name="pingback_suppress_enable" value="1" <?=isset($options['pingback_suppress_enable']) && $options['pingback_suppress_enable']==true?"checked='checked'":'';?>>enable</label></td>
+                    <th><?= __( 'Suppress Pingback function', 'barbwire-security' ) ?></th>
+                    <td><label><input type="checkbox" name="pingback_suppress_enable"
+                                      value="1" <?= isset( $options['pingback_suppress_enable'] ) && $options['pingback_suppress_enable'] == true ? "checked='checked'" : ''; ?>>enable</label>
+                    </td>
                 </tr>
             </table>
 
@@ -95,9 +110,31 @@ $options = get_option(Version::$name, array());
                 </tr>
             </table>
             -->
+            <h3><?= __( 'AUTHOR ARCHIVE', 'barbwire-security' ) ?><a id="author_archive" class="help_link" href="#"><img
+                            src="<?= plugins_url() . '/barbwire-security/img/question_icon.png' ?>"/></a></h3>
+            <table>
+                <tr>
+                    <th><?= __( 'Block the display of author archive page', 'barbwire-security' ) ?></th>
+                    <td><label><input type="checkbox" name="block_author_archive"
+                                      value="1" <?= isset( $options['block_author_archive'] ) && $options['block_author_archive'] == true ? "checked='checked'" : ''; ?>>enable</label>
+                    </td>
+                </tr>
+            </table>
+
+            <h3><?= __( 'REST API', 'barbwire-security' ) ?><a id="restapi" class="help_link" href="#"><img
+                            src="<?= plugins_url() . '/barbwire-security/img/question_icon.png' ?>"/></a></h3>
+            <table>
+                <tr>
+                    <th><?= __( 'Disable REST API', 'barbwire-security' ) ?></th>
+                    <td><label><input type="checkbox" name="disable_rest_api"
+                                      value="1" <?= isset( $options['disable_rest_api'] ) && $options['disable_rest_api'] == true ? "checked='checked'" : ''; ?>>enable</label>
+                    </td>
+                </tr>
+            </table>
 
             <div class="header_buttons">
-                <input type="submit" class="button button-primary button-large" value="<?=__('save', Version::$name)?>"/>
+                <input type="submit" class="button button-primary button-large"
+                       value="<?= __( 'save', 'barbwire-security' ) ?>"/>
             </div>
         </div>
     </form>
