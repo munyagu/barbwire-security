@@ -110,16 +110,6 @@ $options = get_option( Version::$name, array() );
                 </tr>
             </table>
             -->
-            <h3><?= __( 'AUTHOR ARCHIVE', 'barbwire-security' ) ?><a id="author_archive" class="help_link" href="#"><img
-                            src="<?= plugins_url() . '/barbwire-security/img/question_icon.png' ?>"/></a></h3>
-            <table>
-                <tr>
-                    <th><?= __( 'Block the display of author archive page', 'barbwire-security' ) ?></th>
-                    <td><label><input type="checkbox" name="block_author_archive"
-                                      value="1" <?= isset( $options['block_author_archive'] ) && $options['block_author_archive'] == true ? "checked='checked'" : ''; ?>>enable</label>
-                    </td>
-                </tr>
-            </table>
 
             <h3><?= __( 'REST API', 'barbwire-security' ) ?><a id="restapi" class="help_link" href="#"><img
                             src="<?= plugins_url() . '/barbwire-security/img/question_icon.png' ?>"/></a></h3>
