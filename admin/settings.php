@@ -4,58 +4,61 @@
  *************************************/
 require_once WP_PLUGIN_DIR . '/barbwire-security/inc/LoginParameter.php';
 require_once WP_PLUGIN_DIR . '/barbwire-security/inc/Version.php';
+
 use barbsecurity\LoginParameter as LoginParameter;
 use barbsecurity\Version as Version;
 
 define( 'BARB_SECURITY_URL_REGEX', '/[^0-9a-zA-Z_-]/' );
-if ( ! defined( 'BARB_DEBUG' ) ) {
-	define( 'BARB_DEBUG', false );
-}
-
 
 /**
  * Add admin style/javascript
  */
 function barb_security_admin_print_scripts() {
-	BarbTool::bp_log( "barb_security_admin_print_scripts" );
-	wp_enqueue_style( 'barb_security_admin_style', plugins_url() . '/barbwire-security/css/config.css' );
-	wp_enqueue_script( 'barb_security_admin_script', plugins_url() . '/barbwire-security/js/config.js', array( 'jquery' ) );
+
+	wp_enqueue_style( 'barb_security_admin_style', plugins_url() . '/barbwire-security/admin/css/config.css' );
+	wp_enqueue_script( 'barb_security_admin_script', plugins_url() . '/barbwire-security/admin/js/config.js', array( 'jquery' ) );
 }
 
 /**
  * Add security pack menu
  */
-function barb_security_admin_menu() {
-	BarbTool::bp_log( "barb_security_admin_menu" );
-	$hook = add_menu_page(
-		__( 'Barbwire Security Setting', 'barbwire-security' ),
+function barbwire_security_admin_menu() {
+
+	$hook = add_options_page( __( 'Barbwire Security Setting', 'barbwire-security' ),
 		__( 'Barbwire Security', 'barbwire-security' ),
 		BARB_SECURITY_AUTHORITYSECURE,
 		'barb_secure_settings',
-		'barb_disp_secure_settings',
-		'dashicons-lock'
+		'barbwire_security_settings'
 	);
+
 	add_action( "admin_print_scripts-$hook", 'barb_security_admin_print_scripts' );
+
 }
 
-add_action( 'admin_menu', 'barb_security_admin_menu' );
+add_action( 'admin_menu', 'barbwire_security_admin_menu' );
 
 /**
  * Add help to setting page
+ *
+ * @param string $help Help text that appears on the screen.
+ * @param string $screen_id Screen ID.
+ * @param WP_Screen $screen Current WP_Screen instance.
  */
-function barb_security_contextual_help( $help, $screen_id, $screen ) {
-	if ( $screen_id == 'toplevel_page_barb_secure_settings' ) {
+function barbwire_security_contextual_help( $help, $screen_id, $screen ) {
+	if ( 'settings_page_barb_secure_settings' === $screen_id ) {
 
 		$content = '<p>';
 		$content .= __( 'You can ward off tying for try to login for cracking, such as Brute-force attack.', 'barbwire-security' );
 		$content .= '<br />';
 		$content .= __( 'Adding any parameter to login URL so that login screen will hidden.', 'barbwire-security' );
+		$content .= '<br />';
+		$content .= __( 'It also prevents direct access to /wp-admin/ page etc.', 'barbwire-security' );
 		$content .= '</p>';
 
 		$tab = array(
 			'title'   => __( 'Enable login url parameter function', 'barbwire-security' ),
 			'id'      => 'login_parameter',
-			'content' => $content
+			'content' => $content,
 		);
 		$screen->add_help_tab( $tab );
 
@@ -81,16 +84,18 @@ function barb_security_contextual_help( $help, $screen_id, $screen ) {
 		$content .= '</p>';
 
 		$tab = array(
-			'title'   => __( 'Suppress XML-RPC Pingback function', 'barbwire-security' ),
+			'title'   => __( 'Restrict XML-RPC Pingback function', 'barbwire-security' ),
 			'id'      => 'pingback',
 			'content' => $content
 		);
 		$screen->add_help_tab( $tab );
 
 		$content = '<p>';
-		$content .= __( 'If you don\'t need to use <a href="http://v2.wp-api.org/" target="blank">REST API</a> server, you should be desable this function.', 'barbwire-security' );
-		$content .= '<br />';
-		$content .= __( 'It is an unnecessary function for most user.', 'barbwire-security' );
+		$content .= __( '\'REST\' is REpresentational State Transfer function.<br>It is simple http request and respons API.', 'barbwire-security' ) . '<br>';
+		$content .= __( 'It has been incorporated into the WordPress core since version 4.7 and is used in several functions.', 'barbwire-security' ) . '<br>';
+		$content .= __( 'Various functions are now using the REST API, it is not always right to invalidate everything.', 'barbwire-security' ) . '<br><br>';
+		$content .= __( 'Restricting the REST function can lower the risk of attacking the REST API..', 'barbwire-security' ) . '<br>';
+		$content .= __( 'It is best to disable anonymous REST requests and enable them for specific functions.', 'barbwire-security' );
 		$content .= '</p>';
 
 		$tab = array(
@@ -103,31 +108,76 @@ function barb_security_contextual_help( $help, $screen_id, $screen ) {
 	}
 }
 
-add_filter( 'contextual_help', 'barb_security_contextual_help', 900, 3 );
+add_filter( 'contextual_help', 'barbwire_security_contextual_help', 900, 3 );
 
 
 /**
- * セキュリティパック管理画面表示
+ * Display setting page
  */
-function barb_disp_secure_settings() {
+function barbwire_security_settings() {
 	include dirname( __FILE__ ) . '/template/page-setting.php';
 }
 
 /**
- * 設定の保存
+ * Get and format posted potion values
+ *
+ * @return array posted option values
  */
-function barb_security_admin_init() {
-	BarbTool::bp_log( "barb_security_save_setting" );
+function barbwire_security_get_admin_posted_option() {
+	$options = array();
+
+	/* ADMIN LOGIN PAGE URL PARAMETER */
+	$options['parameter_enable'] = isset( $_POST['parameter_enable'] ) && $_POST['parameter_enable'] === '1' ? true : false;
+	$options['param_name']       = isset( $_POST['param_name'] ) && $_POST['param_name'] !== '' ? esc_sql( $_POST['param_name'] ) : LoginParameter::$key;
+	$options['param_value']      = isset( $_POST['param_value'] ) && $_POST['param_value'] !== '' ? esc_sql( $_POST['param_value'] ) : LoginParameter::$val;
+
+	/* LOGIN RETRY LIMIT COUNT */
+	/* TODO Unimplemented
+	$options['retry_times_enable'] = !empty($_POST['retry_times_enable']) && $_POST['retry_times_enable'] == 1 ? true : false;
+	$options['retry_limit'] = isset($_POST['retry_limit']) ? $_POST['retry_limit'] : '';
+	$options['retry_lock_period'] = isset($_POST['retry_lock_period']) ? $_POST['retry_lock_period'] : '';
+	$options['retry_connection'] = isset($_POST['retry_connection']) ? $_POST['retry_connection'] : '';
+	*/
+
+	/* block the display of author archive page */
+	$options['block_author_archive'] = isset( $_POST['block_author_archive'] ) && $_POST['block_author_archive'] === '1' ? true : false;
+
+	/* PINGBACK */
+	$options['pingback_suppress_enable'] = isset( $_POST['pingback_suppress_enable'] ) && $_POST['pingback_suppress_enable'] === '1' ? true : false;
+
+	/* REST API */
+	$options['disable_rest_api'] = isset( $_POST['disable_rest_api'] ) ? $_POST['disable_rest_api'] : 0;
+
+	$options['installed_end_point'] = isset( $_POST['installed_end_point'] ) ? $_POST['installed_end_point'] : array();
+
+	$options['end_points'] = array();
+	if ( isset( $_POST['end_points'] ) ) {
+		// Format the value.
+		$values = explode( "\n", $_POST['end_points'] );
+		$values = array_map( 'trim', $values );
+		$values = array_filter( $values, 'strlen' );
+
+		$options['end_points'] = $values;
+	}
+
+	return $options;
+
+}
+
+/**
+ * Save settings
+ */
+function barbwire_security_admin_init() {
 
 	if ( ! empty( $_POST['barb_secure'] ) ) {
 
-		// CSRF対策のチェック
+		// Check CSRF.
 		if ( ! check_admin_referer( Version::$name, 'barb_secure' ) ) {
 			exit_403();
 		}
 
 		$messages = new WP_Error();
-		add_action( 'admin_notices', 'barb_security_admin_notices' );
+		add_action( 'admin_notices', 'barbwire_security_admin_notices' );
 
 		if ( ! current_user_can( BARB_SECURITY_AUTHORITYSECURE ) ) {
 			$messages->add( 'error', __( 'Authority is missing.', 'barbwire-security' ) );
@@ -136,12 +186,10 @@ function barb_security_admin_init() {
 			return;
 		}
 
-		$options = array();
+		$options = wp_parse_args( barbwire_security_get_admin_posted_option(), BarbwireSecurity::get_option() );
 
-		/* ADMIN LOGIN PAGE URL PARAMETER */
-		$options['parameter_enable'] = isset( $_POST['parameter_enable'] ) && $_POST['parameter_enable'] == 1 ? true : false;
 
-		// URLパラメータチェック
+		// Check URL parameters
 		// http://www.asahi-net.or.jp/~ax2s-kmtn/ref/uric.html
 		if ( preg_match( BARB_SECURITY_URL_REGEX, $_POST['param_name'] ) === 1 ) {
 			$messages->add( 'error', __( 'There is an error in the parameter name.', 'barbwire-security' ) );
@@ -151,25 +199,6 @@ function barb_security_admin_init() {
 			$messages->add( 'error', __( 'There is an error in the parameter value.', 'barbwire-security' ) );
 		}
 
-		$options['param_name']  = isset( $_POST['param_name'] ) && $_POST['param_name'] != '' ? esc_sql( $_POST['param_name'] ) : LoginParameter::$key;
-		$options['param_value'] = isset( $_POST['param_value'] ) && $_POST['param_value'] != '' ? esc_sql( $_POST['param_value'] ) : LoginParameter::$val;
-
-		/* LOGIN RETRY LIMIT COUNT */
-		/* TODO Unimplemented
-		$options['retry_times_enable'] = !empty($_POST['retry_times_enable']) && $_POST['retry_times_enable'] == 1 ? true : false;
-		$options['retry_limit'] = isset($_POST['retry_limit']) ? $_POST['retry_limit'] : '';
-		$options['retry_lock_period'] = isset($_POST['retry_lock_period']) ? $_POST['retry_lock_period'] : '';
-		$options['retry_connection'] = isset($_POST['retry_connection']) ? $_POST['retry_connection'] : '';
-		*/
-
-		/* block the display of author archive page */
-		$options['block_author_archive'] = isset( $_POST['block_author_archive'] ) && $_POST['block_author_archive'] == 1 ? true : false;
-
-		/* PINGBACK */
-		$options['pingback_suppress_enable'] = isset( $_POST['pingback_suppress_enable'] ) && $_POST['pingback_suppress_enable'] == 1 ? true : false;
-
-		/* REST API */
-		$options['disable_rest_api'] = isset( $_POST['disable_rest_api'] ) && $_POST['disable_rest_api'] == 1 ? true : false;
 
 		/* CAPTCHA */
 		/* TODO Unimplemented
@@ -178,32 +207,32 @@ function barb_security_admin_init() {
 
 		if ( count( $messages->errors ) > 0 ) {
 			set_transient( BARB_SECURITY_SAVE_TRANSIENT, $messages, MINUTE_IN_SECONDS );
+			set_transient( BARB_SECURITY_OPTION_TRANSIENT, $options, MINUTE_IN_SECONDS );
 
 			return;
 		}
 
-		if ( get_option( Version::$name, null ) === null ) {
-			add_option( Version::$name, $options, '', 'no' );
-			$messages->add( 'info', __( 'registered', 'barbwire-security' ) );
-		} else {
-			update_option( Version::$name, $options );
-			$messages->add( 'info', __( 'updated', 'barbwire-security' ) );
-		}
+		BarbwireSecurity::update_option( $options );
 
 		if ( $options['parameter_enable'] ) {
-			add_filter( 'login_url', array( 'barbsecurity\LoginParameter', 'addParameter' ), 1 );
+			add_filter( 'login_url', array( 'barbsecurity\LoginParameter', 'add_parameter' ), 1 );
 		} else {
-			remove_filter( 'login_url', array( 'barbsecurity\LoginParameter', 'addParameter' ), 1 );
+			remove_filter( 'login_url', array( 'barbsecurity\LoginParameter', 'add_parameter' ), 1 );
 		}
 
-		set_transient( BARB_SECURITY_SAVE_TRANSIENT, $messages, MINUTE_IN_SECONDS );
+		delete_transient( BARB_SECURITY_SAVE_TRANSIENT );
+		delete_transient( BARB_SECURITY_OPTION_TRANSIENT );
+
+		//set_transient( BARB_SECURITY_SAVE_TRANSIENT, $messages, MINUTE_IN_SECONDS );
 	}
 }
 
-add_action( 'admin_init', 'barb_security_admin_init' );
+add_action( 'admin_init', 'barbwire_security_admin_init' );
 
-
-function barb_security_admin_notices() {
+/**
+ * Show notice messages.
+ */
+function barbwire_security_admin_notices() {
 	$messages = get_transient( BARB_SECURITY_SAVE_TRANSIENT );
 	$errors   = ! empty( $messages->errors['error'] ) ? $messages->errors['error'] : array();
 	$infos    = ! empty( $messages->errors['info'] ) ? $messages->errors['info'] : array();

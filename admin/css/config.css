@@ -1,0 +1,69 @@
+#secure {
+    width: 620px;
+}
+
+#secure table {
+    border-collapse: collapse;
+    line-height: 1.6;
+}
+
+#secure table th {
+    font-size: 0.9em;
+}
+
+#secure table tr th,
+#secure table tr td {
+    margin: 0px;
+    border: 1px solid #696969;
+    padding: 5px;
+}
+
+#secure table tr th {
+    width: 200px;
+}
+
+#secure table tr td {
+    width: 400px;
+}
+
+#secure h3 {
+    margin-top: 1.2em;
+    margin-bottom: 0.5em;
+}
+
+#secure .short_num {
+    width: 60px;
+}
+
+#secure .header_buttons {
+    text-align: right;
+    margin: 10px 0;
+}
+
+#secure input[readonly]:not(#login_url) {
+    opacity: 0.5;
+}
+
+#secure #rest_api_settings div {
+    margin-bottom: 8px;
+}
+
+#secure #advance {
+    display: none;
+}
+
+#secure #advance td {
+    border-width: 0 0 1px 0;
+    border-color: #ccc;
+    padding: 0;
+}
+
+#secure a.help_link {
+    margin: auto 5px;
+}
+
+#login_url {
+    opacity: 1;
+    width: 500px;
+    border: none;
+}
