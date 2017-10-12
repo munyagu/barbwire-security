@@ -159,32 +159,34 @@ $barbwire_security_options = wp_parse_args( $barbwire_security_options_tmp, Barb
 							$ini_setting = BarbwireSecurity::get_ini();
 
 							$popular_end_points = $ini_setting['end_point_popular'];
-							$wp_rest_server     = rest_get_server();
-							$rest_namespaces    = $wp_rest_server->get_namespaces();
-							sort($rest_namespaces);
-							$added              = array();
+							if( function_exists( 'rest_get_server' ) ){
+								$wp_rest_server     = rest_get_server();
+								$rest_namespaces    = $wp_rest_server->get_namespaces();
+								sort($rest_namespaces);
+								$added              = array();
 
-							foreach ( $rest_namespaces as $namespace ) {
+								foreach ( $rest_namespaces as $namespace ) {
 
-								$function_name = '';
-								$namespace_parent = dirname( $namespace ) . '/';
+									$function_name = '';
+									$namespace_parent = dirname( $namespace ) . '/';
 
-								if ( in_array( $namespace_parent, $added ) ) {
-									// Skip duplicate parent.
-									continue;
+									if ( in_array( $namespace_parent, $added ) ) {
+										// Skip duplicate parent.
+										continue;
+									}
+									$added[] = $namespace_parent;
+
+									if ( array_key_exists( $namespace_parent, $popular_end_points ) ) {
+										$function_name = $popular_end_points[ $namespace_parent ];
+										unset( $popular_end_points[ $namespace_parent ] );
+									} else {
+										$function_name = $namespace_parent;
+									}
+
+									$checked = in_array($namespace_parent, $barbwire_security_options['installed_end_point']) ? ' checked="checked"' : '';
+									echo '<label><input type="checkbox" name="installed_end_point[]" value="' . $namespace_parent . '"'. $checked .'>' . esc_html( $function_name ) . '</label><br>';
 								}
-								$added[] = $namespace_parent;
-
-								if ( array_key_exists( $namespace_parent, $popular_end_points ) ) {
-									$function_name = $popular_end_points[ $namespace_parent ];
-									unset( $popular_end_points[ $namespace_parent ] );
-								} else {
-									$function_name = $namespace_parent;
-								}
-
-								$checked = in_array($namespace_parent, $barbwire_security_options['installed_end_point']) ? ' checked="checked"' : '';
-								echo '<label><input type="checkbox" name="installed_end_point[]" value="' . $namespace_parent . '"'. $checked .'>' . esc_html( $function_name ) . '</label><br>';
-							}
+                            }
 
 							?>
 

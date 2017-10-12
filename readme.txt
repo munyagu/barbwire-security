@@ -95,3 +95,6 @@ fix Remove Notice Error in setting page
 add Link to setting page to plugin list page
 Refactored
 Specify support for version 4.9
+
+= 1.4.3 =
+fix Error on setting screen in Version 4.6.x or earlier.
