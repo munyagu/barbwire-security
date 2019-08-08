@@ -109,46 +109,49 @@ if ( isset( $barb_security_options['pingback_suppress_enable'] ) && $barb_securi
  * DISABLE REST API
  *************************************/
 // specified end point.
+if( function_exists( 'rest_get_url_prefix') ) {
+	$barb_security_rest_prefix = rest_get_url_prefix();
 
-$barb_security_rest_prefix = rest_get_url_prefix();
-
-$barb_security_rest_installed_end_point = false;
+	$barb_security_rest_installed_end_point = false;
 // Check installed end point.
-if ( isset( $barb_security_options['installed_end_point'] ) && is_array( $barb_security_options['installed_end_point'] ) ) {
-	foreach ( $barb_security_options['installed_end_point'] as $installed_end_point ) {
-		$barb_security_installed_end_point_uri = '/' . $barb_security_rest_prefix . '/' . $installed_end_point;
-		if ( strpos( $_SERVER['REQUEST_URI'], $barb_security_installed_end_point_uri ) === 0 ) {
-			$barb_security_rest_installed_end_point = true;
-			break;
+	if ( isset( $barb_security_options['installed_end_point'] ) && is_array( $barb_security_options['installed_end_point'] ) ) {
+		foreach ( $barb_security_options['installed_end_point'] as $installed_end_point ) {
+			$barb_security_installed_end_point_uri = '/' . $barb_security_rest_prefix . '/' . $installed_end_point;
+			if ( strpos( $_SERVER['REQUEST_URI'], $barb_security_installed_end_point_uri ) === 0 ) {
+				$barb_security_rest_installed_end_point = true;
+				break;
+			}
 		}
 	}
-}
 
 // Check specified end point.
-$barb_security_rest_specified_end_point = false;
-if ( isset( $barb_security_options['end_points'] ) && is_array( $barb_security_options['end_points'] ) ) {
-	foreach ( $barb_security_options['end_points'] as $end_points ) {
-		$barb_security_end_point_uri = '/' . $barb_security_rest_prefix . '/' . $end_points;
+	$barb_security_rest_specified_end_point = false;
+	if ( isset( $barb_security_options['end_points'] ) && is_array( $barb_security_options['end_points'] ) ) {
+		foreach ( $barb_security_options['end_points'] as $end_points ) {
+			$barb_security_end_point_uri = '/' . $barb_security_rest_prefix . '/' . $end_points;
 
-		if ( strpos( $_SERVER['REQUEST_URI'], $barb_security_end_point_uri ) === 0 ) {
-			$barb_security_rest_specified_end_point = true;
-			break;
+			if ( strpos( $_SERVER['REQUEST_URI'], $barb_security_end_point_uri ) === 0 ) {
+				$barb_security_rest_specified_end_point = true;
+				break;
+			}
 		}
+	}
+
+
+	if ( isset( $barb_security_options['disable_rest_api'] )
+	     && $barb_security_options['disable_rest_api'] == 2
+	     && ! ( $barb_security_rest_installed_end_point || $barb_security_rest_specified_end_point ) ) {
+		DisableRESTAPI::activate();
+	}
+
+	if ( isset( $barb_security_options['disable_rest_api'] )
+	     && $barb_security_options['disable_rest_api'] == 1
+	     && ! ( $barb_security_rest_installed_end_point || $barb_security_rest_specified_end_point ) ) {
+		DisableRESTAPI::activate_auth();
 	}
 }
 
 
-if ( isset( $barb_security_options['disable_rest_api'] )
-     && $barb_security_options['disable_rest_api'] == 2
-     && ! ( $barb_security_rest_installed_end_point || $barb_security_rest_specified_end_point ) ) {
-	DisableRESTAPI::activate();
-}
-
-if ( isset( $barb_security_options['disable_rest_api'] )
-     && $barb_security_options['disable_rest_api'] == 1
-     && ! ( $barb_security_rest_installed_end_point || $barb_security_rest_specified_end_point ) ) {
-	DisableRESTAPI::activate_auth();
-}
 
 
 /*************** OTHER ***************/
