@@ -4,7 +4,7 @@ Donate link: http://munyagu.com/donate/
 Tags: security,admin,Brute Force,admin rename,xmlrcp,rest api
 Requires at least: 3.8
 Tested up to: 5.2
-Stable tag: 1.4.5
+Stable tag: 1.4.5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,9 @@ Also it works in both Apache and nginx.
 3. Help
 
 == Changelog ==
+
+= 1.4.6 =
+fix Fetal error.
 
 = 1.4.5 =
 fix Bug prevent access to password-protected content.

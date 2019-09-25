@@ -39,7 +39,7 @@ function barb_security_login_init() {
 	if ( isset( $_GET['key'] ) ) {
 		$action = 'resetpass';
 	}
-	if ( ! in_array( $action, array( 'postpass', 'logout', 'lostpassword', 'retrievepassword', 'resetpass', 'rp', 'register', 'login', 'confirmaction', WP_Recovery_Mode_Link_Service::LOGIN_ACTION_ENTERED ), true ) && false === has_filter( 'login_form_' . $action ) ) {
+	if ( ! in_array( $action, array( 'postpass', 'logout', 'lostpassword', 'retrievepassword', 'resetpass', 'rp', 'register', 'login', 'confirmaction', 'entered_recovery_mode' ), true ) && false === has_filter( 'login_form_' . $action ) ) {
 		$action = 'login';
 	}
 
