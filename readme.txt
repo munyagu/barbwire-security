@@ -3,8 +3,8 @@ Contributors: munyagu
 Donate link: http://munyagu.com/donate/
 Tags: security,admin,Brute Force,admin rename,xmlrcp,rest api
 Requires at least: 3.8
-Tested up to: 5.0
-Stable tag: 1.4.4
+Tested up to: 5.2
+Stable tag: 1.4.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,37 +56,14 @@ Also it works in both Apache and nginx.
 
 == Changelog ==
 
-= 1.0.0 =
-First release
+= 1.4.5 =
+fix Bug prevent access to password-protected content.
 
-= 1.0.1 =
-fix error error of removing the plugin
+= 1.4.4 =
+fix Error when the version of WordPress does not support REST API.
 
-= 1.0.2 =
-fix php warning message
-
-= 1.0.3 =
-fix login page will divulge, when using Permalink settings
-Thanks to @nyarocom pointed out.(https://wordpress.org/support/topic/login-page-will-divulge/)
-
-= 1.1.0 =
-fix disnable pingback function was not working
-add function block the display of author archive page
-add help documentation
-
-= 1.1.1 =
-fix readme.txt
-
-= 1.2.0 =
-Add new function, Disable the REST API
-Refactor source codes
-
-= 1.2.1 =
-fix settings page duplication
-Specify support for version 4.8.2
-
-= 1.3.0 =
-Skipped
+= 1.4.3 =
+fix Error on setting screen in Version 4.6.x or earlier.
 
 = 1.4.0 =
 change Possible to finely set the restriction of REST API
@@ -96,8 +73,34 @@ add Link to setting page to plugin list page
 Refactored
 Specify support for version 4.9
 
-= 1.4.3 =
-fix Error on setting screen in Version 4.6.x or earlier.
+= 1.3.0 =
+Skipped
 
-= 1.4.4 =
-fix Error when the version of WordPress does not support REST API.
+= 1.2.1 =
+fix settings page duplication
+Specify support for version 4.8.2
+
+= 1.2.0 =
+Add new function, Disable the REST API
+Refactor source codes
+
+= 1.1.1 =
+fix readme.txt
+
+= 1.1.0 =
+fix disnable pingback function was not working
+add function block the display of author archive page
+add help documentation
+
+= 1.0.3 =
+fix login page will divulge, when using Permalink settings
+Thanks to @nyarocom pointed out.(https://wordpress.org/support/topic/login-page-will-divulge/)
+
+= 1.0.2 =
+fix php warning message
+
+= 1.0.1 =
+fix error error of removing the plugin
+
+= 1.0.0 =
+First release

@@ -32,7 +32,18 @@ add_action( 'plugins_loaded', 'barb_security_plugins_loaded' );
 function barb_security_login_init() {
 	global $barb_security_options;
 
-	if ( isset( $barb_security_options['parameter_enable'] ) && $barb_security_options['parameter_enable'] == true ) {
+	/**
+	 * @see wordpress wp-login.php
+	 */
+	$action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : 'login';
+	if ( isset( $_GET['key'] ) ) {
+		$action = 'resetpass';
+	}
+	if ( ! in_array( $action, array( 'postpass', 'logout', 'lostpassword', 'retrievepassword', 'resetpass', 'rp', 'register', 'login', 'confirmaction', WP_Recovery_Mode_Link_Service::LOGIN_ACTION_ENTERED ), true ) && false === has_filter( 'login_form_' . $action ) ) {
+		$action = 'login';
+	}
+
+	if ( 'postpass' !== $action && isset( $barb_security_options['parameter_enable'] ) && $barb_security_options['parameter_enable'] == true ) {
 		// リファラが空の場合はGETにパラメータがあることをチェックする
 		if ( ! isset( $_SERVER['HTTP_REFERER'] ) ) {
 			// check get parameter case referer is empty
