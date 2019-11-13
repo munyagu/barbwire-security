@@ -78,7 +78,7 @@ function barb_security_login_init() {
 
 }
 
-add_action( 'login_init', 'barb_security_login_init', 1 );
+add_action( 'logadd_options_pagein_init', 'barb_security_login_init', 1 );
 
 
 function barb_security_secure_auth_redirect() {

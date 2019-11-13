@@ -161,8 +161,11 @@ class LoginParameter {
 		} elseif ( strpos( $url, 'action=resetpass' ) !== false ) {
 			// case action of reset password form.
 			return self::add_parameter( $url );
-		} elseif ( preg_match( '/\/wp-login.php$/', $url ) ) {
+		} elseif ( 1 === preg_match( '/\/wp-login.php$/', $url ) ) {
 			// case action of login form.
+			return self::add_parameter( $url );
+		} elseif ( 1 === preg_match( '/\/wp-login.php.+?action=confirm_admin_email/', $url ) ) {
+			// case action of login from admin email confirmation.
 			return self::add_parameter( $url );
 		} else {
 			return $url;
