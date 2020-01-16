@@ -90,16 +90,34 @@ class LoginParameter {
 	 */
 	public static function filter_login_url( $login_url, $redirect, $force_reauth ) {
 
+		//var_dump($_SERVER['REQUEST_URI'] );
+		$home_url = home_url();
+		$site_url =  site_url();
+		$site_url_prefix = '';
+		if( $home_url !== $site_url ) {
+			$site_url_prefix = '/' . preg_replace( '/https?:\/\/.+?\//', '', $site_url );
+		}
+
 		// not login or redirect login url
 		/* refer to wordpress/wordpress/wp-includes/canonical.php wp_redirect_admin_locations */
 		if ( ! is_user_logged_in() ) {
 			$logins = array(
 				home_url( 'wp-admin', 'relative' ),
+				// $site_url_prefix . home_url( 'wp-admin', 'relative' ),
 				home_url( 'dashboard', 'relative' ),
+				home_url( 'admin', 'relative' ),
+				site_url( 'dashboard', 'relative' ),
 				site_url( 'admin', 'relative' ),
+
+				$site_url_prefix . home_url( 'wp-login.php', 'relative' ),
 				home_url( 'wp-login.php', 'relative' ),
 				home_url( 'login', 'relative' ),
+				site_url( 'admin', 'relative' ),
 			);
+
+
+			// var_dump(untrailingslashit( $_SERVER['REQUEST_URI'] ));
+			// var_dump($logins);
 
 			if ( in_array( untrailingslashit( $_SERVER['REQUEST_URI'] ), $logins, true ) ) {
 				exit_404();
