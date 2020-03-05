@@ -3,8 +3,8 @@ Contributors: munyagu
 Donate link: http://munyagu.com/donate/
 Tags: security,admin,Brute Force,admin rename,xmlrcp,rest api
 Requires at least: 4.7
-Tested up to: 5.3
-Stable tag: 1.4.6.1
+Tested up to: 5.4
+Stable tag: 1.4.6.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,9 @@ Also it works in both Apache and nginx.
 3. Help
 
 == Changelog ==
+
+= 1.4.6.1 =
+update replace deprecated action hook.
 
 = 1.4.6.1 =
 fix bug for subdirectory type WordPress.

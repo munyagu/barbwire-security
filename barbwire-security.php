@@ -5,7 +5,7 @@ Plugin Name: Barbwire Security
 Plugin URI: http://barbwire.co.jp/plugin/barb-pack
 Description: This plugin enhances the WordPress security.
 Author: barbwire.co.jp
-Version: 1.4.6.1
+Version: 1.4.6.2
 Author URI: http://barbwire.co.jp/
 Text Domain:barbwire-security
 Domain Path: /languages/
@@ -117,3 +117,14 @@ register_activation_hook( __FILE__, array( 'BarbwireSecurity', 'barb_security_re
 register_deactivation_hook( __FILE__, array( 'BarbwireSecurity', 'barb_security_register_deactivation_hook' ) );
 register_uninstall_hook( __FILE__, array( 'BarbwireSecurity', 'barb_security_uninstall' ) );
 add_filter('plugin_action_links_'.plugin_basename(__FILE__) , array( 'BarbwireSecurity', 'barb_security_plugin_action_links'), 10, 2);
+
+
+
+add_action("admin_head", 'suffix2console');
+function suffix2console() {
+	global $hook_suffix;
+	if (is_user_logged_in()) {
+		$str = "<script type=\"text/javascript\">console.log('%s')</script>";
+		printf($str, $hook_suffix);
+	}
+}

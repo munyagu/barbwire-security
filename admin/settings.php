@@ -44,8 +44,9 @@ add_action( 'admin_menu', 'barbwire_security_admin_menu' );
  * @param string $screen_id Screen ID.
  * @param WP_Screen $screen Current WP_Screen instance.
  */
-function barbwire_security_contextual_help( $help, $screen_id, $screen ) {
-	if ( 'settings_page_barb_secure_settings' === $screen_id ) {
+function barbwire_security_contextual_help(  ) {
+
+	$screen = get_current_screen();
 
 		$content = '<p>';
 		$content .= __( 'You can ward off tying for try to login for cracking, such as Brute-force attack.', 'barbwire-security' );
@@ -105,10 +106,10 @@ function barbwire_security_contextual_help( $help, $screen_id, $screen ) {
 		);
 		$screen->add_help_tab( $tab );
 
-	}
 }
 
-add_filter( 'contextual_help', 'barbwire_security_contextual_help', 900, 3 );
+//add_filter( 'contextual_help', 'barbwire_security_contextual_help', 900, 3 );
+add_action( "load-settings_page_barb_secure_settings", 'barbwire_security_contextual_help', 10 );
 
 
 /**
