@@ -26,73 +26,6 @@ function barb_security_plugins_loaded() {
 add_action( 'plugins_loaded', 'barb_security_plugins_loaded' );
 
 
-/**
- * check login
- */
-function barb_security_login_init() {
-	global $barb_security_options;
-
-	/**
-	 * @see wordpress wp-login.php
-	 */
-	$action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : 'login';
-	if ( isset( $_GET['key'] ) ) {
-		$action = 'resetpass';
-	}
-	if ( ! in_array( $action, array( 'postpass', 'logout', 'lostpassword', 'retrievepassword', 'resetpass', 'rp', 'register', 'login', 'confirmaction', 'entered_recovery_mode' ), true ) && false === has_filter( 'login_form_' . $action ) ) {
-		$action = 'login';
-	}
-
-	if ( 'postpass' !== $action && isset( $barb_security_options['parameter_enable'] ) && $barb_security_options['parameter_enable'] == true ) {
-		// リファラが空の場合はGETにパラメータがあることをチェックする
-		if ( ! isset( $_SERVER['HTTP_REFERER'] ) ) {
-			// check get parameter case referer is empty
-			if ( ! LoginParameter::check_get_param() ) {
-				exit_404();
-			}
-		} else if ( isset( $_SERVER['HTTP_REFERER'] ) && strpos( $_SERVER['HTTP_REFERER'], '/wp-login.php' ) !== false ) {
-			/**
-			 * リファラがwp-login.phpの場合はリファラかリクエストにパラメータがあることを確認する
-			 */
-			//$actions = array('postpass', 'lostpassword', 'retrievepassword', 'resetpass', 'rp');
-			//if(isset($_GET['action']) && in_array($_GET['action'], $actions, true)){
-			//    return;
-			//}
-
-			if ( ! LoginParameter::check_referer_param() || ! LoginParameter::check_get_param() ) {
-				exit_404();
-			}
-		} else if ( isset( $_SERVER['HTTP_REFERER'] ) && strpos( $_SERVER['HTTP_REFERER'], '/wp-admin/' ) !== false ) {
-			// do nothing case referer is wp-admin
-			return true;
-		} else if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
-			// それ以外のリファラでGETにパラメータがあることをチェックする
-			if ( ! LoginParameter::check_get_param() ) {
-				exit_404();
-			}
-		} else {
-			exit_404();
-		}
-
-	}
-
-}
-
-add_action( 'logadd_options_pagein_init', 'barb_security_login_init', 1 );
-
-
-function barb_security_secure_auth_redirect() {
-	global $barb_security_options;
-	if ( isset( $barb_security_options['parameter_enable'] ) && $barb_security_options['parameter_enable'] == true ) {
-		if ( strpos( $_SERVER['REQUEST_URI'], 'wp-admin' ) !== false && ! is_user_logged_in() ) {
-			// wp-adminからの未ログインリダイレクトの場合は404で終了する
-			exit_404();
-		}
-	}
-
-}
-
-add_action( 'secure_auth_redirect', 'barb_security_secure_auth_redirect' );
 
 /*
  * ADMIN LOGIN PAGE URL PARAMETER
@@ -168,7 +101,7 @@ if( function_exists( 'rest_get_url_prefix') ) {
 /*************** OTHER ***************/
 
 /**
- * Exit error 404
+ * Exit error 403
  */
 function exit_403() {
 	echo '<html><head><title>403 Forbidden</title></head><body><h1>Forbidden</h1>' . __( 'Failed to login.', 'barbwire-security' ) . '</body></html>';
@@ -177,9 +110,10 @@ function exit_403() {
 }
 
 /**
- * Exit error 403
+ * Exit error 404
  */
 function exit_404() {
+
 	global $wp_query;
 	$wp_query->set_404();
 	status_header( 404 );

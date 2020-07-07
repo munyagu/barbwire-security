@@ -77,6 +77,9 @@ class LoginParameter {
 		add_filter( 'lostpassword_url', array( 'barbsecurity\LoginParameter', 'filter_lostpassword_url' ), 1 );
 		add_filter( 'site_url', array( 'barbsecurity\LoginParameter', 'filter_site_url' ), 1 );
 
+		add_action( 'secure_auth_redirect', array( 'barbsecurity\LoginParameter', 'barb_security_secure_auth_redirect' ) );
+
+		add_action( 'login_init', array( 'barbsecurity\LoginParameter', 'barb_security_login_init' ), 1 );
 	}
 
 	/**
@@ -221,16 +224,68 @@ class LoginParameter {
 		return $login_url;
 	}
 
-	/* never tested
-		public static function addParameterSecond($errors, &$redirect_to){
-			if(count($errors) > 0){
-				$options = BarbwireSecurity::getOption();
-				$key = $options['param_name'];
-				$val = $options['param_value'];
-				$redirect_to .= strpos($redirect, '?') === false ? '?' : '&';
-				$redirect_to .= "{$key}={$val}";
-			}
-			return $errors;
-		}
+	/**
+	 * Exit with a 404 for un-logged redirects from wp-admin
 	 */
+	public static function barb_security_secure_auth_redirect() {
+		global $barb_security_options;
+		if ( isset( $barb_security_options['parameter_enable'] ) && $barb_security_options['parameter_enable'] == true ) {
+			if ( strpos( $_SERVER['REQUEST_URI'], 'wp-admin' ) !== false && ! is_user_logged_in() ) {
+				exit_404();
+			}
+		}
+
+	}
+
+	/**
+	 * check login
+	 */
+	public static function barb_security_login_init() {
+		global $barb_security_options;
+
+		/**
+		 * @see wordpress wp-login.php
+		 */
+		$action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : 'login';
+		if ( isset( $_GET['key'] ) ) {
+			$action = 'resetpass';
+		}
+		if ( ! in_array( $action, array( 'postpass', 'logout', 'lostpassword', 'retrievepassword', 'resetpass', 'rp', 'register', 'login', 'confirmaction', 'entered_recovery_mode' ), true ) && false === has_filter( 'login_form_' . $action ) ) {
+			$action = 'login';
+		}
+
+		if ( 'postpass' !== $action && isset( $barb_security_options['parameter_enable'] ) && $barb_security_options['parameter_enable'] == true ) {
+			// リファラが空の場合はGETにパラメータがあることをチェックする
+			if ( ! isset( $_SERVER['HTTP_REFERER'] ) ) {
+				// check get parameter case referer is empty
+				if ( ! LoginParameter::check_get_param() ) {
+					exit_404();
+				}
+			} else if ( isset( $_SERVER['HTTP_REFERER'] ) && strpos( $_SERVER['HTTP_REFERER'], '/wp-login.php' ) !== false ) {
+				/**
+				 * リファラがwp-login.phpの場合はリファラかリクエストにパラメータがあることを確認する
+				 */
+				//$actions = array('postpass', 'lostpassword', 'retrievepassword', 'resetpass', 'rp');
+				//if(isset($_GET['action']) && in_array($_GET['action'], $actions, true)){
+				//    return;
+				//}
+
+				if ( ! LoginParameter::check_referer_param() || ! LoginParameter::check_get_param() ) {
+					exit_404();
+				}
+			} else if ( isset( $_SERVER['HTTP_REFERER'] ) && strpos( $_SERVER['HTTP_REFERER'], '/wp-admin/' ) !== false ) {
+				// do nothing case referer is wp-admin
+				return true;
+			} else if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
+				// それ以外のリファラでGETにパラメータがあることをチェックする
+				if ( ! LoginParameter::check_get_param() ) {
+					exit_404();
+				}
+			} else {
+				exit_404();
+			}
+
+		}
+
+	}
 }
