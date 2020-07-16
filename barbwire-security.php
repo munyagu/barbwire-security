@@ -5,13 +5,14 @@ Plugin Name: Barbwire Security
 Plugin URI: http://barbwire.co.jp/plugin/barb-pack
 Description: This plugin enhances the WordPress security.
 Author: barbwire.co.jp
-Version: 1.4.6.4
+Requires at least: 4.6
+Requires PHP: 5.6
+Version: 1.4.6.5
 Author URI: http://barbwire.co.jp/
-Text Domain:barbwire-security
-Domain Path: /languages/
+License: GPL v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: barbwire-security
  */
-
-define( 'BARBWIRE_SECURITY_VERSION', '1.4.6.4' );
 
 require_once dirname( __FILE__ ) . '/inc/functions.php';
 require_once dirname( __FILE__ ) . '/inc/Version.php';

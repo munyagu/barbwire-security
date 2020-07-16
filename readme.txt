@@ -2,9 +2,10 @@
 Contributors: munyagu
 Donate link: http://munyagu.com/donate/
 Tags: security,admin,Brute Force,admin rename,xmlrcp,rest api
-Requires at least: 4.7
-Tested up to: 5.4
-Stable tag: 1.4.6.4
+Requires at least: 4.6
+Requires PHP: 5.6
+Tested up to: 5.5
+Stable tag: 1.4.6.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +56,10 @@ Also it works in both Apache and nginx.
 3. Help
 
 == Changelog ==
+
+= 1.4.6.5 =
+update renew readme.txt and plugin file header.
+update move the translation from mo files to Polyglots
 
 = 1.4.6.4 =
 fix From version 1.4.6.3, part of the login URL change function was not working properly.

@@ -20,7 +20,7 @@ define( 'BARB_SECURITY_OPTION_TRANSIENT', Version::$name . "_OPTION" );
 $version               = Version::get_version();
 $barb_security_options = BarbwireSecurity::get_option();
 function barb_security_plugins_loaded() {
-	$result = load_plugin_textdomain( Version::$name, false, Version::$name . '/languages' );
+	$result = load_plugin_textdomain( Version::$name );
 }
 
 add_action( 'plugins_loaded', 'barb_security_plugins_loaded' );
