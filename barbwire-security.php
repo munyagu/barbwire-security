@@ -7,7 +7,7 @@ Description: This plugin enhances the WordPress security.
 Author: barbwire.co.jp
 Requires at least: 4.6
 Requires PHP: 5.6
-Version: 1.4.6.5
+Version: 1.4.7
 Author URI: http://barbwire.co.jp/
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html

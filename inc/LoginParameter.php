@@ -76,10 +76,12 @@ class LoginParameter {
 		), 1 );
 		add_filter( 'lostpassword_url', array( 'barbsecurity\LoginParameter', 'filter_lostpassword_url' ), 1 );
 		add_filter( 'site_url', array( 'barbsecurity\LoginParameter', 'filter_site_url' ), 1 );
+		add_filter( 'logout_url', array( 'barbsecurity\LoginParameter', 'filter_logout_url' ), 1 );
 
 		add_action( 'secure_auth_redirect', array( 'barbsecurity\LoginParameter', 'barb_security_secure_auth_redirect' ) );
 
 		add_action( 'login_init', array( 'barbsecurity\LoginParameter', 'barb_security_login_init' ), 1 );
+
 	}
 
 	/**
@@ -194,6 +196,16 @@ class LoginParameter {
 
 	}
 
+	/**
+	 *
+	 * Add parameter to logout url
+	 * @param $logout_url
+	 *
+	 * @return string
+	 */
+	public static function filter_logout_url( $logout_url ) {
+		return self::add_parameter( $logout_url );
+	}
 
 	/**
 	 * Add parameter to login url
