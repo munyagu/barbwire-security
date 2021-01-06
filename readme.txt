@@ -4,7 +4,7 @@ Donate link: http://munyagu.com/donate/
 Tags: security,admin,Brute Force,admin rename,xmlrcp,rest api
 Requires at least: 4.6
 Requires PHP: 5.6
-Tested up to: 5.5
+Tested up to: 5.6
 Stable tag: 1.4.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
