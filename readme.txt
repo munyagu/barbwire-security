@@ -5,7 +5,7 @@ Tags: security,admin,Brute Force,admin rename,xmlrcp,rest api
 Requires at least: 4.6
 Requires PHP: 5.6
 Tested up to: 5.6
-Stable tag: 1.4.7
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,20 +17,23 @@ This plugin enhances the WordPress security.
 Effective such as the brute force attack.
 Includes the following specific functions.
 
-1.Change the URL of the login screen, to avoid attacks on the login screen.
+1.Google reCaptcha v3 protect login screen from bot attacks.
+
+2.Change the URL of the login screen, to avoid attacks on the login screen.
   You can ward off tying for try to login for cracking, such as Brute-force attack.
   Adding parameter to login URL so that default login url will hidden.
 
-2.Block the display of author archive page
+3.Block the display of author archive page
   WordPress leaks your login id because of redirect author archive page by author id to login id.
   (If you enter "your-site-url/?author=1", you can try it.)
   Simply hideing author archive page so that block to leak login id.
 
-3.To disable the part of the XML-RCP feature prevents the attack.
+4.To disable the part of the XML-RCP feature prevents the attack.
   Block DDOS attacks against other sites with yor WordPress site, pingback enabled.
 
-4.Disable the REST API function and reduce the risk of receiving external attacks.
+5.Disable the REST API function and reduce the risk of receiving external attacks.
   You can disable all REST APIs and you can partially disable them.
+  (This feature will be removed in version 2.1.)
 
 These features will be able to choose whether or not to enable.
 
@@ -56,6 +59,9 @@ Also it works in both Apache and nginx.
 3. Help
 
 == Changelog ==
+
+= 2.0.0 =
+add Google reCaptcha v3 protect login screen from bot attacks.
 
 = 1.4.7 =
 add parameter to logout url

@@ -1,25 +1,41 @@
-#secure {
-    width: 620px;
+.bs_valid th,
+.bs_valid td {
+    background-color: #c8e6c9 !important;
+}
+.bs_invalid th,
+.bs_invalid td{
+    background-color: #ff7043 !important;
+}
+.invalid_message {
+    display: none;
+}
+.bs_invalid .invalid_message {
+    display: block;
 }
 
+#secure .row {
+    margin-bottom: 3em;
+}
 #secure table {
     border-collapse: collapse;
     line-height: 1.6;
-}
-
-#secure table th {
-    font-size: 0.9em;
+    width: 100%;
 }
 
 #secure table tr th,
 #secure table tr td {
-    margin: 0px;
-    border: 1px solid #696969;
-    padding: 5px;
+    margin: 0;
+    border-width: 1px 0;
+    border-color: #ccc;
+    border-style: solid;
+    padding: 10px 5px;
+    background-color: #fbfbfb;
 }
 
 #secure table tr th {
     width: 200px;
+    text-align: right;
+    padding-right: 2em;
 }
 
 #secure table tr td {
@@ -35,9 +51,44 @@
     width: 60px;
 }
 
-#secure .header_buttons {
+
+
+#secure .buttons {
     text-align: right;
     margin: 10px 0;
+    position: relative;
+}
+
+#secure .button_message {
+    display: none;
+    position: absolute;
+    width: 100px;
+    right: 0;
+    top: 40px;
+    background-color: #fff;
+    color: #FF5252;
+    padding: 1em;
+    margin: 0;
+    text-align: left;
+    border-radius: 5px;
+    border: 1px solid #FF5252;
+    z-index: 99;
+    box-shadow: 2px 2px 2px #333;
+}
+
+#secure .button_message:before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    left: 65%;
+    margin-left: -15px;
+    border: 15px solid transparent;
+    border-bottom: 15px solid #FF5252;
+    z-index: 99;
+}
+
+#secure .buttons input:disabled:hover ~ .button_message {
+    display: block;
 }
 
 #secure input[readonly]:not(#login_url) {
@@ -66,4 +117,32 @@
     opacity: 1;
     width: 500px;
     border: none;
+}
+
+#secure .loader {
+    display: inline-block;
+}
+
+#secure  #rest_test_button_wrap {
+    display: flex;
+}
+#secure .loader {
+    position: relative;
+}
+#secure .loader img {
+    clip-path: inset(25%);
+    margin-top: -20px;
+    width: 50px;
+    position: absolute;
+    top: 23px;
+    display: none;
+}
+
+@media screen and (max-width: 639px) {
+    #secure table input[type="text"],
+    #secure table textarea {
+        max-width: 100%;
+        width: 100%;
+        box-sizing: border-box;
+    }
 }

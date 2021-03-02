@@ -7,7 +7,7 @@ Description: This plugin enhances the WordPress security.
 Author: barbwire.co.jp
 Requires at least: 4.6
 Requires PHP: 5.6
-Version: 1.4.7
+Version: 2.0.0
 Author URI: http://barbwire.co.jp/
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -21,12 +21,19 @@ use barbsecurity\Version as Version;
 
 class BarbwireSecurity {
 
+	const REST_NAMESPACE = 'barbwire_security/';
+
+	const REST_CURRENT_VERSION = 'v1';
+
 	/**
 	 * Default option values
 	 *
 	 * @var array
 	 */
 	private static $default_option_value = array(
+		'captcha_enable' => false,
+		'recaptcha_site_key' => '',
+		'recaptcha_secret_key' => '',
 		'parameter_enable'         => false,
 		'param_name'               => '',
 		'param_value'              => '',
@@ -35,7 +42,6 @@ class BarbwireSecurity {
 		'disable_rest_api'         => 0,
 		'installed_end_point'      => array(),
 		'end_points'               => array(),
-
 	);
 
 	/**
@@ -111,6 +117,16 @@ class BarbwireSecurity {
 		array_unshift( $actions, $settings_link );
 
 		return $actions;
+	}
+
+	public static function log( $msg ){
+		$log_file = self::get_log_file_path();
+		error_log( sprintf( "[%s] %s", date( 'Ymd H:i:s' ), $msg ), 3, $log_file );
+	}
+
+	public static function get_log_file_path(){
+		$date = date('Ymd');
+		return __DIR__ . "/log/security.{$date}.log";
 	}
 }
 

@@ -7,6 +7,7 @@ require_once WP_PLUGIN_DIR . '/barbwire-security/inc/Version.php';
 
 use barbsecurity\LoginParameter as LoginParameter;
 use barbsecurity\Version as Version;
+use barbsecurity\ReCaptcha as ReCaptcha;
 
 define( 'BARB_SECURITY_URL_REGEX', '/[^0-9a-zA-Z_-]/' );
 
@@ -15,8 +16,22 @@ define( 'BARB_SECURITY_URL_REGEX', '/[^0-9a-zA-Z_-]/' );
  */
 function barb_security_admin_print_scripts() {
 
-	wp_enqueue_style( 'barb_security_admin_style', plugins_url() . '/barbwire-security/admin/css/config.css' );
-	wp_enqueue_script( 'barb_security_admin_script', plugins_url() . '/barbwire-security/admin/js/config.js', array( 'jquery' ) );
+	global $pagenow;
+
+	if ( 'options-general.php' === $pagenow
+	&& 'barb_secure_settings' === $_GET['page']) {
+		wp_enqueue_style( 'barb_security_admin_style', plugins_url() . '/barbwire-security/admin/css/config.css', [], Version::get_version()  );
+		wp_enqueue_script( 'barb_security_admin_script', plugins_url() . '/barbwire-security/admin/js/config.js', array( 'jquery' ), Version::get_version() );
+		wp_localize_script( 'barb_security_admin_script',
+			'bsVariabls',
+			array(
+				'rest_namespace' => esc_url_raw( rest_url( BarbwireSecurity::REST_NAMESPACE . BarbwireSecurity::REST_CURRENT_VERSION ) ),
+				'rest_recaptcha_test_root' => ReCaptcha::REST_ROOT_TEST,
+				'nonce' => wp_create_nonce( 'wp_rest' )
+			)
+		);
+	}
+
 }
 
 /**
@@ -127,8 +142,13 @@ function barbwire_security_settings() {
 function barbwire_security_get_admin_posted_option() {
 	$options = array();
 
+	/* CAPTCHA */
+	$options['captcha_enable'] = isset($_POST['captcha_enable']) && $_POST['captcha_enable'] == 1;
+	$options['recaptcha_site_key']       = isset( $_POST['recaptcha_site_key'] ) && $_POST['recaptcha_site_key'] !== '' ? esc_sql( $_POST['recaptcha_site_key'] ) : '';
+	$options['recaptcha_secret_key']       = isset( $_POST['recaptcha_secret_key'] ) && $_POST['recaptcha_secret_key'] !== '' ? esc_sql( $_POST['recaptcha_secret_key'] ) : '';
+
 	/* ADMIN LOGIN PAGE URL PARAMETER */
-	$options['parameter_enable'] = isset( $_POST['parameter_enable'] ) && $_POST['parameter_enable'] === '1' ? true : false;
+	$options['parameter_enable'] = isset( $_POST['parameter_enable'] ) && $_POST['parameter_enable'] === '1';
 	$options['param_name']       = isset( $_POST['param_name'] ) && $_POST['param_name'] !== '' ? esc_sql( $_POST['param_name'] ) : LoginParameter::$key;
 	$options['param_value']      = isset( $_POST['param_value'] ) && $_POST['param_value'] !== '' ? esc_sql( $_POST['param_value'] ) : LoginParameter::$val;
 
@@ -141,10 +161,10 @@ function barbwire_security_get_admin_posted_option() {
 	*/
 
 	/* block the display of author archive page */
-	$options['block_author_archive'] = isset( $_POST['block_author_archive'] ) && $_POST['block_author_archive'] === '1' ? true : false;
+	$options['block_author_archive'] = isset( $_POST['block_author_archive'] ) && $_POST['block_author_archive'] === '1';
 
 	/* PINGBACK */
-	$options['pingback_suppress_enable'] = isset( $_POST['pingback_suppress_enable'] ) && $_POST['pingback_suppress_enable'] === '1' ? true : false;
+	$options['pingback_suppress_enable'] = isset( $_POST['pingback_suppress_enable'] ) && $_POST['pingback_suppress_enable'] === '1';
 
 	/* REST API */
 	$options['disable_rest_api'] = isset( $_POST['disable_rest_api'] ) ? $_POST['disable_rest_api'] : 0;
@@ -189,7 +209,6 @@ function barbwire_security_admin_init() {
 
 		$options = wp_parse_args( barbwire_security_get_admin_posted_option(), BarbwireSecurity::get_option() );
 
-
 		// Check URL parameters
 		// http://www.asahi-net.or.jp/~ax2s-kmtn/ref/uric.html
 		if ( preg_match( BARB_SECURITY_URL_REGEX, $_POST['param_name'] ) === 1 ) {
@@ -199,12 +218,6 @@ function barbwire_security_admin_init() {
 		if ( preg_match( BARB_SECURITY_URL_REGEX, $_POST['param_value'] ) === 1 ) {
 			$messages->add( 'error', __( 'There is an error in the parameter value.', 'barbwire-security' ) );
 		}
-
-
-		/* CAPTCHA */
-		/* TODO Unimplemented
-		$options['captcha_enable'] = isset($_POST['captcha_enable']) && $_POST['captcha_enable'] == 1 ? true : false;
-		*/
 
 		if ( count( $messages->errors ) > 0 ) {
 			set_transient( BARB_SECURITY_SAVE_TRANSIENT, $messages, MINUTE_IN_SECONDS );

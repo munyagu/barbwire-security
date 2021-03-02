@@ -6,12 +6,14 @@ require_once dirname( __FILE__ ) . '/DisableXMLRPCPingBack.php';
 require_once dirname( __FILE__ ) . '/LoginParameter.php';
 require_once dirname( __FILE__ ) . '/AuthorArchive.php';
 require_once dirname( __FILE__ ) . '/DisableRESTAPI.php';
+require_once dirname( __FILE__ ) . '/ReCaptcha.php';
 
 use barbsecurity\Version as Version;
 use barbsecurity\LoginParameter as LoginParameter;
 use barbsecurity\AuthorArchive as AuthorArchive;
 use barbsecurity\DisableRESTAPI as DisableRESTAPI;
 use barbsecurity\DisableXMLRPCPingBack as DisableXMLRPCPingBack;
+use barbsecurity\ReCaptcha as ReCaptcha;
 
 define( 'BARB_SECURITY_AUTHORITYSECURE', 'manage_options' );    //User level required in order to change the settings.
 define( 'BARB_SECURITY_SAVE_TRANSIENT', Version::$name . "_SAVE" );
@@ -95,8 +97,13 @@ if( function_exists( 'rest_get_url_prefix') ) {
 	}
 }
 
-
-
+/*************************************
+ * Activate Google reCaptcha V3
+ *************************************/
+function barb_security_recaptcha_init(){
+	ReCaptcha::init();
+}
+add_action('init', 'barb_security_recaptcha_init');
 
 /*************** OTHER ***************/
 
