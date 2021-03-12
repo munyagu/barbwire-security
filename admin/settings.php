@@ -98,9 +98,12 @@ function barbwire_security_contextual_help(  ) {
 		$content .= '<br />';
 		$content .= __( '<a href="http://www.digitalattackmap.com/#anim=1&color=0&country=ALL&list=2&time=17108&view=map" target="_blank">Sites around the world have been exposed to the threat of DDOS attack.</a>', 'barbwire-security' );
 		$content .= '</p>';
+		$content .= '<p>';
+		$content .= __( 'And block login via XML-RPC.', 'barbwire-security' );
+		$content .= '</p>';
 
 		$tab = array(
-			'title'   => __( 'Restrict XML-RPC Pingback function', 'barbwire-security' ),
+			'title'   => __( 'Limiting the functionality of XML-RPC', 'barbwire-security' ),
 			'id'      => 'pingback',
 			'content' => $content
 		);

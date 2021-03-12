@@ -152,12 +152,12 @@ $barbwire_security_options = wp_parse_args( $barbwire_security_options_tmp, Barb
                     </tr>
                 </table>
             </div>
-            <div id="xmlrcp">
-                <h3><?php echo __( 'XMLRCP PINGBACK', 'barbwire-security' ) ?><a id="pingback" class="help_link" href="#"><img
+            <div id="xmlrpc">
+                <h3><?php echo __( 'XML-RPC', 'barbwire-security' ) ?><a id="pingback" class="help_link" href="#"><img
                                 src="<?php echo plugins_url() . '/barbwire-security/admin/img/question_icon.png' ?>"/></a></h3>
                 <table>
                     <tr>
-                        <th><?php echo __( 'Suppress Pingback function', 'barbwire-security' ) ?></th>
+                        <th><?php echo __( 'Limiting the functionality of XML-RPC', 'barbwire-security' ) ?></th>
                         <td><label><input type="checkbox" name="pingback_suppress_enable"
                                           value="1" <?php echo isset( $barbwire_security_options['pingback_suppress_enable'] ) && $barbwire_security_options['pingback_suppress_enable'] == true ? "checked='checked'" : ''; ?>><?php echo __( 'enable', 'barbwire-security' ); ?>
                             </label>

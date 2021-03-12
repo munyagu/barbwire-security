@@ -6,8 +6,9 @@ Plugin URI: http://barbwire.co.jp/plugin/barb-pack
 Description: This plugin enhances the WordPress security.
 Author: barbwire.co.jp
 Requires at least: 4.6
+Tested up to: 5.7
 Requires PHP: 5.6
-Version: 2.0.0
+Version: 2.1.0
 Author URI: http://barbwire.co.jp/
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html

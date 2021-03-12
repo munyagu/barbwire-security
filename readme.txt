@@ -1,11 +1,11 @@
 === Barbwire Security ===
 Contributors: munyagu
 Donate link: http://munyagu.com/donate/
-Tags: security,admin,Brute Force,admin rename,xmlrcp,rest api
+Tags: security,admin,Brute Force,admin rename,xmlrpc,rest api
 Requires at least: 4.6
+Tested up to: 5.7
 Requires PHP: 5.6
-Tested up to: 5.6
-Stable tag: 2.0.0
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -28,8 +28,9 @@ Includes the following specific functions.
   (If you enter "your-site-url/?author=1", you can try it.)
   Simply hideing author archive page so that block to leak login id.
 
-4.To disable the part of the XML-RCP feature prevents the attack.
+4.To limiting the part of the XML-RCP feature prevents the attack.
   Block DDOS attacks against other sites with yor WordPress site, pingback enabled.
+  Block login via XML-RPC.
 
 5.Disable the REST API function and reduce the risk of receiving external attacks.
   You can disable all REST APIs and you can partially disable them.
@@ -59,6 +60,11 @@ Also it works in both Apache and nginx.
 3. Help
 
 == Changelog ==
+
+= 2.0.1 =
+fix error message to be displayed once even when the reCaptcha key was correct.
+update disabling only XML-RCP pingback to disabling pingback and login.
+fix typo
 
 = 2.0.0 =
 add Google reCaptcha v3 protect login screen from bot attacks.

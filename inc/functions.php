@@ -1,7 +1,7 @@
 <?php
 require_once dirname( __FILE__ ) . '/Version.php';
 require_once WP_PLUGIN_DIR . '/barbwire-security/admin/settings.php';
-require_once dirname( __FILE__ ) . '/DisableXMLRPCPingBack.php';
+require_once dirname( __FILE__ ) . '/LimitingXMLRPC.php';
 
 require_once dirname( __FILE__ ) . '/LoginParameter.php';
 require_once dirname( __FILE__ ) . '/AuthorArchive.php';
@@ -12,7 +12,7 @@ use barbsecurity\Version as Version;
 use barbsecurity\LoginParameter as LoginParameter;
 use barbsecurity\AuthorArchive as AuthorArchive;
 use barbsecurity\DisableRESTAPI as DisableRESTAPI;
-use barbsecurity\DisableXMLRPCPingBack as DisableXMLRPCPingBack;
+use barbsecurity\LimitingXMLRPC as LimitingXMLRPC;
 use barbsecurity\ReCaptcha as ReCaptcha;
 
 define( 'BARB_SECURITY_AUTHORITYSECURE', 'manage_options' );    //User level required in order to change the settings.
@@ -45,10 +45,10 @@ if ( isset( $barb_security_options['block_author_archive'] ) && $barb_security_o
 }
 
 /*************************************
- * DISABLE XMLRCP PINGBACK
+ * Limiting the functionality of XML-RPC
  *************************************/
 if ( isset( $barb_security_options['pingback_suppress_enable'] ) && $barb_security_options['pingback_suppress_enable'] == true ) {
-	DisableXMLRPCPingBack::activate();
+	LimitingXMLRPC::activate();
 }
 
 /*************************************

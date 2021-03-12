@@ -89,7 +89,7 @@ jQuery(function ($) {
                             headers: {
                                 "X-WP-Nonce": bsVariabls.nonce
                             }
-                        }).then(function (data) {
+                        }).done(function (data) {
 
                             if (true === data.success) {
                                 alert('Ok, valid Keys.');
@@ -103,16 +103,20 @@ jQuery(function ($) {
                                 }
                                 alert(message);
                             }
-                        }).catch(function(){
+                        }).fail(function(e){
+                            console.log(e.message);
+                            console.trace(e);
                             console.log("failed 101");
-                        }).then(function(){
+                        }).always(function(){
                             rbs_initialize();
                         });
 
-                    }).catch(function(){
+                    }).catch(function(e){
+
+                        console.trace(e);
+                        console.log("failed 102");
 
                         alert('NG, invalid Keys !');
-                        console.log("failed 102");
                         rbs_ecaptcha_valid(false);
 
                     }).then(function(){
