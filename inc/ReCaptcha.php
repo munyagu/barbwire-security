@@ -38,8 +38,12 @@ class ReCaptcha {
 		$enabled = isset( $options['captcha_enable'] ) && true === $options['captcha_enable'];
 		$site_key_enabled = isset( $options['recaptcha_site_key'] ) && '' !== $options['recaptcha_site_key'];
 		$secret_key_enabled = isset( $options['recaptcha_secret_key'] ) && '' !== $options['recaptcha_secret_key'];
+		$environment_enable = true;
+		if(function_exists('wp_get_environment_type')){
+            $environment_enable = 'local' !== wp_get_environment_type();
+        }
 
-		return $enabled && $site_key_enabled && $secret_key_enabled;
+		return $enabled && $site_key_enabled && $secret_key_enabled && $environment_enable;
     }
 
 	private static function get_site_key() {
