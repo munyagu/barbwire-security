@@ -28,6 +28,7 @@ class ReCaptcha {
 	public static function init() {
 		add_action( 'login_enqueue_scripts', [ __CLASS__, 'load_recaptcha_script' ] );
 		add_action( 'login_form', [ __CLASS__, 'login_form' ] );
+        add_action( 'lostpassword_form', [ __CLASS__, 'lostpassword_form' ] );
 		add_filter( 'authenticate', [ __CLASS__, 'check_login_recaptcha' ], 99 );
 		add_action( 'rest_api_init', [ __CLASS__, 'add_endpoint' ] );
 	}
@@ -73,10 +74,12 @@ class ReCaptcha {
                 function barb_sec_recatpcha(event) {
                     event.preventDefault();
                     grecaptcha.ready(function () {
-                        grecaptcha.execute('<?php echo esc_attr( $site_key ); ?>', {action: 'login'}).then(function (token) {
+                        var action_type = document.getElementById('barb_sec_action').value;
+                        grecaptcha.execute('<?php echo esc_attr( $site_key ); ?>', {action: action_type}).then(function (token) {
                             var token_input = document.getElementById('barb_sec_token');
                             token_input.value = token;
-                            document.getElementById('loginform').submit();
+                            var form_id = 'login' === action_type ? 'loginform' : 'lostpassword' === action_type ? 'lostpasswordform': '';
+                            document.getElementById(form_id).submit();
                         });
                     });
                 }
@@ -91,11 +94,19 @@ class ReCaptcha {
 	 * add hidden input
 	 */
 	public static function login_form() {
-		?>
-        <input type="hidden" name="barb_sec_recaptcha_response" id="barb_sec_token">
-        <input type="hidden" name="barb_sec_action" value="login">
-		<?php
+		self::__login_form('login');
 	}
+
+	public static function lostpassword_form(){
+        self::__login_form('lostpassword');
+    }
+
+	public static function __login_form($form_type){
+        ?>
+        <input type="hidden" id="barb_sec_token" name="barb_sec_recaptcha_response">
+        <input type="hidden" id="barb_sec_action" name="barb_sec_action" value="<?php echo esc_attr($form_type);?>">
+        <?php
+    }
 
 	/**
 	 * add endpoint for reCaptcha admin page.
